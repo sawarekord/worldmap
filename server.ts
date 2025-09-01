@@ -5,8 +5,8 @@ import { Server } from 'socket.io';
 import next from 'next';
 
 const dev = process.env.NODE_ENV !== 'production';
-const currentPort = 3000;
-const hostname = '0.0.0.0';
+const currentPort = Number(process.env.PORT) || 3000;
+const hostname = process.env.HOST || '0.0.0.0';
 
 // Custom server with Socket.IO integration
 async function createCustomServer() {
@@ -43,6 +43,15 @@ async function createCustomServer() {
     setupSocket(io);
 
     // Start the server
+    server.on('error', (err: any) => {
+      if (err && (err.code === 'EADDRINUSE' || err.code === 'EACCES')) {
+        console.error(`Port ${currentPort} is unavailable. Set PORT to a free port or free the port.`);
+      } else {
+        console.error('Server error:', err);
+      }
+      process.exit(1);
+    });
+
     server.listen(currentPort, hostname, () => {
       console.log(`> Ready on http://${hostname}:${currentPort}`);
       console.log(`> Socket.IO server running at ws://${hostname}:${currentPort}/api/socketio`);

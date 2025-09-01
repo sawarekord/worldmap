@@ -1,13 +1,12 @@
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-8 p-4">
-      <div className="relative w-24 h-24 md:w-32 md:h-32">
-        <img
-          src="/logo.svg"
-          alt="Z.ai Logo"
-          className="w-full h-full object-contain"
-        />
-      </div>
-    </div>
-  )
+    <main className="w-screen h-[100svh]">
+      <iframe
+        title="World Map"
+        className="w-full h-full border-0"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-180%2C-85%2C180%2C85&layer=mapnik"
+        allowFullScreen
+      />
+    </main>
+  );
 }
